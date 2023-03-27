@@ -3,6 +3,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { User, UserPlus } from 'tabler-icons-react';
 import LoginForm from '../../components/LoginForm';
 import SignUpForm from '../../components/SignUpForm';
