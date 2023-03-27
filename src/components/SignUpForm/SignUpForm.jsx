@@ -4,14 +4,29 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { At, Lock } from 'tabler-icons-react';
+import { addUser, isUsernameTaken } from '../../lib/users';
 
 function SignUpForm() {
-  const form = useForm({});
+  const form = useForm({
+    initialValues: {
+      username: '',
+      password: '',
+      confirmPassword: '',
+    },
+    validate: {
+      username: (value) => (isUsernameTaken(value) ? 'Username is taken' : null),
+      password: (value) => (value.length < 8 ? 'Password is too short' : null),
+      confirmPassword: (value, values) => (value !== values.password ? 'Passwords do not match' : null),
+    },
+  });
 
   // TODO submit handler
+  const submitHandler = ({ username, password }) => {
+    addUser(username, password);
+  };
 
   return (
-    <form onSubmit={form.onSubmit((values) => console.log(values))}>
+    <form onSubmit={form.onSubmit(submitHandler)}>
       <Container size="sm">
         <Card shadow="sm" padding="lg" radius="md" withBorder>
           <Title>Sign up</Title>

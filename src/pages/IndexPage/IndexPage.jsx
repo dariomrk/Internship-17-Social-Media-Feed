@@ -7,10 +7,15 @@ import { useNavigate } from 'react-router-dom';
 import { User, UserPlus } from 'tabler-icons-react';
 import LoginForm from '../../components/LoginForm';
 import SignUpForm from '../../components/SignUpForm';
+import { canAutoLogIn } from '../../lib/users';
 
 function IndexPage() {
   const [openedLogin, { open: openLogin, close: closeLogin }] = useDisclosure(false);
   const [openedSignup, { open: openSignup, close: closeSignup }] = useDisclosure(false);
+
+  const navigate = useNavigate();
+
+  if (canAutoLogIn()) { navigate('/feed'); }
 
   return (
     <>
