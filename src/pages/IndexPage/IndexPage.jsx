@@ -19,8 +19,8 @@ function IndexPage() {
       <Modal opened={openedSignup} onClose={closeSignup} centered fullScreen>
         <SignUpForm />
       </Modal>
-      <Container size="sm">
-        <Card shadow="sm" padding="lg" radius="md" withBorder>
+      <Container size="sm" p="lg">
+        <Card shadow="sm" radius="md" withBorder>
           <Title align="center">Social Media Feed</Title>
           <Space h="lg" />
           <Button onClick={openLogin} fullWidth leftIcon={<User />}>
