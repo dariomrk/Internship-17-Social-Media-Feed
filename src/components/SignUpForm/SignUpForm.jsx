@@ -1,10 +1,10 @@
 import React from 'react';
 
-function LoginPage() {
+function SignUpForm() {
   return (
     <>
     </>
   );
 }
 
-export default LoginPage;
+export default SignUpForm;

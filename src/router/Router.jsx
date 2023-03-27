@@ -1,12 +1,9 @@
 import React from 'react';
 import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-  RouterProvider,
+  createBrowserRouter, createRoutesFromElements, Route, RouterProvider,
 } from 'react-router-dom';
 
-import LoginPage from '../pages/LoginPage';
+import IndexPage from '../pages/IndexPage';
 import Layout from '../layout';
 import FeedPage from '../pages/FeedPage';
 import PostPage from '../pages/PostPage';
@@ -15,9 +12,9 @@ import NotFoundPage from '../pages/NotFoundPage';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/" element={<LoginPage />} />
+      <Route path="/" element={<IndexPage />} />
       <Route element={<Layout />}>
-        <Route path="/feed" element={<FeedPage />} />
+        <Route path="/feed/:query?" element={<FeedPage />} />
         <Route path="/post:id" element={<PostPage />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
