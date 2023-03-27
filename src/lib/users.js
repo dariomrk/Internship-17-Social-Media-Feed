@@ -69,6 +69,29 @@ export const updateLoginTimestamp = (username) => {
 };
 
 /**
+ * Sets the last logged in user.
+ * @param {string} username user to set
+ * @returns {void}
+ */
+export const setLastLoggedIn = (username) => {
+  localStorage.setItem('lastLoggedInUser', username);
+};
+
+/**
+ * Clears the last logged in user.
+ * @returns {void}
+ */
+export const clearLastLoggedIn = () => {
+  localStorage.setItem('lastLoggedInUser', null);
+};
+
+/**
+ * Get the last logged in users username.
+ * @returns {string} last logged in users username
+ */
+export const getLastLoggedIn = () => localStorage.getItem('lastLoggedInUser');
+
+/**
  * Checks users credentials.
  * @param {string} username users username
  * @param {stringn} password users password
@@ -82,7 +105,35 @@ export const logIn = (username, password) => {
   }
 
   if (user.password === password) {
+    setLastLoggedIn(username);
     updateLoginTimestamp(username);
+    return true;
+  }
+  return false;
+};
+
+/**
+ * Logs out the user with the given username.
+ * @param {string} username user to log out
+ * @returns {void}
+ */
+export const logOut = (username) => {
+  const user = getUsers().find((u) => u.username === username);
+
+  if (!user) {
+    throw new Error('User does not exist.');
+  }
+
+  clearLastLoggedIn(username);
+};
+
+/**
+ * Check whether the user can auto log in.
+ * @param {string} username user to check
+ * @returns {boolean} boolean indicating whether the given user can auto log in
+ */
+export const canAutoLogIn = (username) => {
+  if (getLastLoggedIn() === username && isValidLoginTimespan(username)) {
     return true;
   }
   return false;
