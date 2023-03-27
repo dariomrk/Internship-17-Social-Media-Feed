@@ -2,7 +2,7 @@ import {
   Container, Card, Button, Space, Title, Modal,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, UserPlus } from 'tabler-icons-react';
 import LoginForm from '../../components/LoginForm';
@@ -15,7 +15,11 @@ function IndexPage() {
 
   const navigate = useNavigate();
 
-  if (canAutoLogIn()) { navigate('/feed'); }
+  const autoLogin = canAutoLogIn();
+
+  useEffect(() => {
+    if (autoLogin) { navigate('/feed'); }
+  }, [autoLogin, navigate]);
 
   return (
     <>
