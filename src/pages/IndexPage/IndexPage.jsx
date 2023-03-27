@@ -4,6 +4,8 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import React from 'react';
 import { User, UserPlus } from 'tabler-icons-react';
+import LoginForm from '../../components/LoginForm';
+import SignUpForm from '../../components/SignUpForm';
 
 function IndexPage() {
   const [openedLogin, { open: openLogin, close: closeLogin }] = useDisclosure(false);
@@ -12,10 +14,10 @@ function IndexPage() {
   return (
     <>
       <Modal opened={openedLogin} onClose={closeLogin} centered fullScreen>
-        <Title>Login</Title>
+        <LoginForm />
       </Modal>
       <Modal opened={openedSignup} onClose={closeSignup} centered fullScreen>
-        <Title>Sign up</Title>
+        <SignUpForm />
       </Modal>
       <Container size="sm">
         <Card shadow="sm" padding="lg" radius="md" withBorder>
