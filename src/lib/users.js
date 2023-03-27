@@ -2,7 +2,7 @@
  * Gets all users from localStorage.
  * @returns {[{username: string, password: string, lastLogin: string}]} users array
  */
-export const getUsers = () => JSON.parse(localStorage.getItem('users'));
+export const getUsers = () => JSON.parse(localStorage.getItem('users')) ?? [];
 
 /**
  * Adds a new user to localStorage.
@@ -12,11 +12,10 @@ export const getUsers = () => JSON.parse(localStorage.getItem('users'));
  */
 export const addUser = (username, password) => {
   const existingUsers = getUsers();
-
-  if (existingUsers.any((existingUser) => existingUser.username === username)) { throw new Error('Username is taken.'); }
+  if (existingUsers.some((existingUser) => existingUser.username === username)) { throw new Error('Username is taken.'); }
 
   localStorage.setItem('users', JSON.stringify([
-    existingUsers,
+    ...existingUsers,
     {
       username,
       password,
@@ -138,4 +137,19 @@ export const canAutoLogIn = () => {
     }
   } catch (e) { return false; }
   return false;
+};
+
+/**
+ * Check whether the given username is already in use.
+ * @param {string} username username to check
+ * @returns {boolean} boolean indicating the username is in use
+ */
+export const isUsernameTaken = (username) => {
+  const user = getUsers().find((u) => u.username === username);
+
+  if (!user) {
+    return false;
+  }
+
+  return true;
 };
