@@ -4,7 +4,8 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { At, Lock } from 'tabler-icons-react';
-import { addUser, usernameExists } from '../../lib/users';
+import { useNavigate } from 'react-router-dom';
+import { addUser, usernameExists, logIn } from '../../lib/users';
 
 function SignUpForm() {
   const form = useForm({
@@ -14,15 +15,23 @@ function SignUpForm() {
       confirmPassword: '',
     },
     validate: {
-      username: (value) => (usernameExists(value) ? 'Username is taken' : null),
-      password: (value) => (value.length < 8 ? 'Password is too short' : null),
-      confirmPassword: (value, values) => (value !== values.password ? 'Passwords do not match' : null),
+      username: (username) => (
+        username.trim().length < 4
+          ? 'Username is too short'
+          : usernameExists(username)
+            ? 'Username is taken'
+            : null),
+      password: (password) => (password.length < 8 ? 'Password is too short' : null),
+      confirmPassword: (confirmPassword, values) => (confirmPassword !== values.password ? 'Passwords do not match' : null),
     },
+    validateInputOnBlur: true,
   });
+  const navigate = useNavigate();
 
-  // TODO submit handler
   const submitHandler = ({ username, password }) => {
     addUser(username, password);
+    logIn(username, password);
+    navigate('/feed');
   };
 
   return (

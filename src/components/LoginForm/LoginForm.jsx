@@ -4,6 +4,7 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { At, Lock } from 'tabler-icons-react';
+import { useNavigate } from 'react-router-dom';
 import { usernameExists, logIn } from '../../lib/users';
 
 function LoginForm() {
@@ -14,12 +15,20 @@ function LoginForm() {
     },
     validate: {
       username: (username) => (!usernameExists(username) ? 'User does not exist' : null),
-      password: (password, values) => (!logIn(values.username, password) ? 'Invalid password' : null),
+      password: (password, values) => (!usernameExists(values.username)
+        ? 'Cannot check password' : !logIn(values.username, password)
+          ? 'Invalid password'
+          : null),
     },
+    validateInputOnBlur: true,
   });
+  const navigate = useNavigate();
+  const submitHandler = ({ username, password }) => {
+    if (logIn(username, password)) { navigate('/feed'); }
+  };
 
   return (
-    <form onSubmit={form.onSubmit((values) => console.log(values))}>
+    <form onSubmit={form.onSubmit(submitHandler)}>
       <Container size="sm">
         <Card shadow="sm" padding="lg" radius="md" withBorder>
           <Title>Login</Title>

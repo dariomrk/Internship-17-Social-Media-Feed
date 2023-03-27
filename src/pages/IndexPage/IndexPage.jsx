@@ -12,9 +12,7 @@ import { canAutoLogIn } from '../../lib/users';
 function IndexPage() {
   const [openedLogin, { open: openLogin, close: closeLogin }] = useDisclosure(false);
   const [openedSignup, { open: openSignup, close: closeSignup }] = useDisclosure(false);
-
   const navigate = useNavigate();
-
   const autoLogin = canAutoLogIn();
 
   useEffect(() => {
