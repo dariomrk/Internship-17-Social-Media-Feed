@@ -14,7 +14,7 @@ const router = createBrowserRouter(
     <>
       <Route path="/" element={<IndexPage />} />
       <Route element={<Layout />}>
-        <Route path="/feed/:query?" element={<FeedPage />} />
+        <Route path="/feed/:search?" element={<FeedPage />} />
         <Route path="/post/:id" element={<PostPage />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />

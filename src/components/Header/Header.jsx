@@ -3,9 +3,11 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import React from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Search } from 'tabler-icons-react';
 
 function Header() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const form = useForm({
     initialValues: {
       search: '',
@@ -13,7 +15,7 @@ function Header() {
   });
 
   const submitHandler = ({ search }) => {
-    console.log(search); // TODO implement search
+    setSearchParams({ search });
   };
 
   return (
