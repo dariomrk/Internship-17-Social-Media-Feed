@@ -24,17 +24,26 @@ export const addUser = (username, password) => {
 };
 
 /**
+ * Check whether the given username is already in use.
+ * @param {string} username username to check
+ * @returns {boolean} boolean indicating the username is in use
+ */
+export const usernameExists = (username) => {
+  const user = getUsers().find((u) => u.username === username);
+
+  return !!user;
+};
+
+/**
  * Check whether the users login is still valid.
  * @param {string} username users username
  * @returns {boolean} boolean indicating whether the login is still valid.
  */
 export const isValidLoginTimespan = (username) => {
-  const user = getUsers().find((u) => u.username === username);
-
-  if (!user) {
-    throw new Error('User does not exist.');
+  if (!usernameExists(username)) {
+    return false;
   }
-
+  const user = getUsers().find((u) => u.username === username);
   const elapsedMilliseconds = Date.now() - Date.parse(user.lastLogin);
   const elapsedHours = elapsedMilliseconds / (1000 * 60 * 60);
 
@@ -58,11 +67,10 @@ export const removeUser = (username) => {
  * @returns {void}
  */
 export const updateLoginTimestamp = (username) => {
-  const user = getUsers().find((u) => u.username === username);
-
-  if (!user) {
-    throw new Error('User does not exist.');
+  if (!usernameExists(username)) {
+    return;
   }
+  const user = getUsers().find((u) => u.username === username);
   removeUser(username);
   addUser(username, user.password);
 };
@@ -97,11 +105,9 @@ export const getLastLoggedIn = () => localStorage.getItem('lastLoggedInUser');
  * @returns {boolean} boolean indicating credential validity.
  */
 export const logIn = (username, password) => {
-  const user = getUsers().find((u) => u.username === username);
+  if (!usernameExists(username)) { return false; }
 
-  if (!user) {
-    throw new Error('User does not exist.');
-  }
+  const user = getUsers().find((u) => u.username === username);
 
   if (user.password === password) {
     setLastLoggedIn(username);
@@ -117,12 +123,7 @@ export const logIn = (username, password) => {
  * @returns {void}
  */
 export const logOut = (username) => {
-  const user = getUsers().find((u) => u.username === username);
-
-  if (!user) {
-    throw new Error('User does not exist.');
-  }
-
+  if (!usernameExists(username)) { return; }
   clearLastLoggedIn(username);
 };
 
@@ -137,19 +138,4 @@ export const canAutoLogIn = () => {
     }
   } catch (e) { return false; }
   return false;
-};
-
-/**
- * Check whether the given username is already in use.
- * @param {string} username username to check
- * @returns {boolean} boolean indicating the username is in use
- */
-export const isUsernameTaken = (username) => {
-  const user = getUsers().find((u) => u.username === username);
-
-  if (!user) {
-    return false;
-  }
-
-  return true;
 };

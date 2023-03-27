@@ -4,11 +4,19 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { At, Lock } from 'tabler-icons-react';
+import { usernameExists, logIn } from '../../lib/users';
 
 function LoginForm() {
-  const form = useForm({});
-
-  // TODO submit handler
+  const form = useForm({
+    initialValues: {
+      username: '',
+      password: '',
+    },
+    validate: {
+      username: (username) => (!usernameExists(username) ? 'User does not exist' : null),
+      password: (password, values) => (!logIn(values.username, password) ? 'Invalid password' : null),
+    },
+  });
 
   return (
     <form onSubmit={form.onSubmit((values) => console.log(values))}>
