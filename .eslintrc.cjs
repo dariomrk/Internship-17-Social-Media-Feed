@@ -20,5 +20,6 @@ module.exports = {
   rules: {
     'react/prop-types': ['off', {}],
     'no-nested-ternary': 'off',
+    'react/jsx-props-no-spreading': ['off'],
   },
 };
