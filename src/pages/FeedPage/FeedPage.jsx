@@ -1,19 +1,17 @@
 import {
   Button, Card, Collapse, Divider, Group, Stack, Title,
 } from '@mantine/core';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import { DoorExit, PencilPlus } from 'tabler-icons-react';
 import NewPostForm from '../../components/NewPostForm';
 import Post from '../../components/Post';
-import { getPosts } from '../../lib/content';
+import { addPost, getPosts } from '../../lib/content';
+import { getLastLoggedIn } from '../../lib/users';
 
 function FeedPage() {
   const [posts, setPosts] = useState(getPosts());
   const [openedNewPost, { toggle: toggleNewPost }] = useDisclosure(false);
-  useEffect(() => {
-    // TODO
-  }, [posts]);
 
   return (
     <Stack mt="lg">
@@ -28,12 +26,21 @@ function FeedPage() {
         </Group>
       </Card>
       <Collapse in={openedNewPost}>
-        <NewPostForm />
+        <NewPostForm newPostCallback={({ text, image }) => {
+          addPost({ text, image, createdBy: getLastLoggedIn() });
+          setPosts(getPosts());
+          toggleNewPost(false);
+        }}
+        />
       </Collapse>
       {posts.map((post) => (
         <>
-          <Post {...post} newCommentCallback={(text) => console.log(text)} />
-          <Divider />
+          <Post
+            key={post.id}
+            {...post}
+            newCommentCallback={(text) => console.log(text)}
+          />
+          <Divider key={crypto.randomUUID()} />
         </>
       ))}
     </Stack>

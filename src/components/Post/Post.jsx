@@ -34,21 +34,28 @@ function Post({
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section>
-        <Image
-          src={image ?? 'https://source.unsplash.com/l-lgKl4HNHM'}
-          height={(!image ? 400 : 'fit-content')}
-          alt="Post image"
-        />
+        {(!image
+          ? undefined
+          : (
+            <Image
+              src={image}
+              height={(!image ? 400 : 'fit-content')}
+              alt="Post image"
+            />
+          ))}
       </Card.Section>
       <Group position="apart" mt="md" mb="xs">
         <Text weight={500}>{createdBy ?? 'Anonymous'}</Text>
         <Group>
+          {(!image ? <Badge color="red">No image</Badge> : undefined)}
           <Badge>
             {comments.length}
             {' '}
             {comments.length === 1 ? 'comment' : 'comments'}
           </Badge>
-          <Badge>{(!timestamp ? new Date() : Date.parse(timestamp)).toLocaleString('en-US')}</Badge>
+          <Badge>
+            {new Date(timestamp).toLocaleString('en-US')}
+          </Badge>
         </Group>
       </Group>
       <Text size="sm" color="dimmed">

@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { Upload } from 'tabler-icons-react';
 import encode from '../../lib/encodeBase64';
 
-function NewPostForm() {
+function NewPostForm({ newPostCallback }) {
   const [imageFile, setImageFile] = useState(null);
 
   const form = useForm({
@@ -28,8 +28,9 @@ function NewPostForm() {
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Title order={2}>New post</Title>
-      {!form.values.image ? undefined : <Image src={form.values.image} />}
-      <form onSubmit={form.onSubmit(() => {
+      {!form.values.image ? undefined : <Image mt="md" src={form.values.image} />}
+      <form onSubmit={form.onSubmit(({ text, image }) => {
+        newPostCallback({ text, image });
         form.reset();
       })}
       >
