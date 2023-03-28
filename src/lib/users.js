@@ -118,24 +118,7 @@ export const logIn = (username, password) => {
 };
 
 /**
- * Logs out the user with the given username.
- * @param {string} username user to log out
- * @returns {void}
- */
-export const logOut = (username) => {
-  if (!usernameExists(username)) { return; }
-  clearLastLoggedIn(username);
-};
-
-/**
  * Check whether the last user can auto log in.
  * @returns {boolean} boolean indicating whether the last user can auto log in
  */
-export const canAutoLogIn = () => {
-  try {
-    if (isValidLoginTimespan(getLastLoggedIn())) {
-      return true;
-    }
-  } catch (e) { return false; }
-  return false;
-};
+export const canAutoLogIn = () => isValidLoginTimespan(getLastLoggedIn());
