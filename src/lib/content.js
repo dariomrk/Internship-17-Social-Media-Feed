@@ -69,3 +69,7 @@ export const editPost = (postId, editCallback) => {
 export const addComment = (postId, { createdBy, text }) => {
   // TODO implement
 };
+
+export const sortPosts = (posts) => {
+  // TODO implement
+};

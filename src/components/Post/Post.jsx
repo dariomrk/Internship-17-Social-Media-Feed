@@ -5,6 +5,7 @@ import React from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import Comment from '../Comment';
 import NewCommentForm from '../NewCommentForm';
+import { getLastLoggedIn } from '../../lib/users';
 
 /**
  * @param {{
@@ -17,17 +18,20 @@ import NewCommentForm from '../NewCommentForm';
  *  createdBy: string,
  *  timestamp: string,
  * }[],
- * newCommentCallback: (text: string) => void
+ * newCommentCallback: (text: string) => void,
+ * removePostCallback: (id: number) => void,
  * }} props
  * @returns {JSX.ELement}
  */
 function Post({
+  id,
   image,
   text,
   createdBy,
   timestamp,
   comments = [],
   newCommentCallback,
+  removePostCallback,
 }) {
   const [commentsOpened, { toggle: toggleComments }] = useDisclosure(false);
   const [newCommentOpened, { toggle: toggleNewComment }] = useDisclosure(false);
@@ -79,6 +83,12 @@ function Post({
         >
           New comment
         </Button>
+        {createdBy === getLastLoggedIn()
+          ? (
+            <Button onClick={() => removePostCallback(id)} color="red">
+              Delete
+            </Button>
+          ) : undefined}
       </Group>
       <Collapse in={commentsOpened}>
         {comments.map((comment) => <Comment comment={comment} />)}

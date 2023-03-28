@@ -8,7 +8,7 @@ import {
 } from 'tabler-icons-react';
 import NewPostForm from '../../components/NewPostForm';
 import Post from '../../components/Post';
-import { addPost, getPosts } from '../../lib/content';
+import { addPost, getPosts, removePost } from '../../lib/content';
 import { getLastLoggedIn } from '../../lib/users';
 
 function FeedPage() {
@@ -44,6 +44,10 @@ function FeedPage() {
             key={post.id}
             {...post}
             newCommentCallback={(text) => console.log(text)}
+            removePostCallback={(id) => {
+              removePost(id);
+              setPosts(getPosts());
+            }}
           />
           <Divider key={crypto.randomUUID()} />
         </>
