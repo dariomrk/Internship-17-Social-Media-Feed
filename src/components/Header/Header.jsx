@@ -21,6 +21,7 @@ function Header() {
       return;
     }
     setSearchParams({ search: normalizedSearch });
+    form.reset();
   };
 
   return (
