@@ -1,5 +1,5 @@
 import {
-  TextInput, Button, Grid, Col, Card,
+  TextInput, Button, Grid, Col,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import React from 'react';
