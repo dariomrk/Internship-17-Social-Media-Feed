@@ -4,6 +4,7 @@ import {
 import { useForm } from '@mantine/form';
 import React, { useEffect, useState } from 'react';
 import { Upload } from 'tabler-icons-react';
+import imageCompression from 'browser-image-compression';
 import encode from '../../lib/encodeBase64';
 
 function NewPostForm({ newPostCallback }) {
@@ -20,18 +21,23 @@ function NewPostForm({ newPostCallback }) {
   });
 
   useEffect(() => {
-    if (!imageFile) { return; }
-    encode(imageFile)
-      .then((encoded) => form.setFieldValue('image', encoded));
+    if (!imageFile) {
+      form.setFieldValue('image', null);
+      return;
+    }
+    imageCompression(imageFile, { maxSizeMB: 0.2, maxWidthOrHeight: 1000, useWebWorker: true })
+      .then((compressed) => encode(compressed)
+        .then(((encoded) => form.setFieldValue('image', encoded))));
   }, [imageFile, form]);
 
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Title order={2}>New post</Title>
-      {!form.values.image ? undefined : <Image mt="md" src={form.values.image} />}
+      {!imageFile ? undefined : <Image mt="md" src={form.values.image} />}
       <form onSubmit={form.onSubmit(({ text, image }) => {
         newPostCallback({ text, image });
         form.reset();
+        setImageFile(null);
       })}
       >
         <Textarea
@@ -47,6 +53,7 @@ function NewPostForm({ newPostCallback }) {
               placeholder="Pick the image of your choice"
               accept="image/png,image/jpeg"
               formTarget="image"
+              value={imageFile}
               onChange={setImageFile}
             />
 
