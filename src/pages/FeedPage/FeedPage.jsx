@@ -3,7 +3,9 @@ import {
 } from '@mantine/core';
 import React, { useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
-import { DoorExit, PencilPlus } from 'tabler-icons-react';
+import {
+  PencilMinus, DoorExit, PencilPlus,
+} from 'tabler-icons-react';
 import NewPostForm from '../../components/NewPostForm';
 import Post from '../../components/Post';
 import { addPost, getPosts } from '../../lib/content';
@@ -21,16 +23,19 @@ function FeedPage() {
           <Button leftIcon={<DoorExit />} color="red" variant="light">Log out</Button>
           <Group spacing="sm">
             <Button variant="light">My posts</Button>
-            <Button leftIcon={<PencilPlus />} onClick={toggleNewPost}>Create new post</Button>
+            {(!openedNewPost
+              ? <Button leftIcon={<PencilPlus />} onClick={toggleNewPost}>Create new post</Button>
+              : <Button color="red" leftIcon={<PencilMinus />} onClick={toggleNewPost}>Close create new post</Button>)}
           </Group>
         </Group>
       </Card>
       <Collapse in={openedNewPost}>
-        <NewPostForm newPostCallback={({ text, image }) => {
-          addPost({ text, image, createdBy: getLastLoggedIn() });
-          setPosts(getPosts());
-          toggleNewPost(false);
-        }}
+        <NewPostForm
+          newPostCallback={({ text, image }) => {
+            addPost({ text, image, createdBy: getLastLoggedIn() });
+            setPosts(getPosts());
+            toggleNewPost(false);
+          }}
         />
       </Collapse>
       {posts.map((post) => (
