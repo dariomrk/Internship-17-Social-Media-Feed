@@ -41,7 +41,6 @@ function FeedPage() {
             Log out
           </Button>
           <Group spacing="sm">
-            <Button variant="light">My posts</Button>
             {(!openedNewPost
               ? (
                 <Button
