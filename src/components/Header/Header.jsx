@@ -1,5 +1,5 @@
 import {
-  TextInput, Button, Grid, Col,
+  TextInput, Button, Grid, Col, Card,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import React from 'react';
@@ -15,7 +15,12 @@ function Header() {
   });
 
   const submitHandler = ({ search }) => {
-    setSearchParams({ search });
+    const normalizedSearch = search.trim().toLowerCase();
+    if (normalizedSearch === '') {
+      setSearchParams({});
+      return;
+    }
+    setSearchParams({ search: normalizedSearch });
   };
 
   return (
