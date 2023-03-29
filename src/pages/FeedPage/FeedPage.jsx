@@ -10,7 +10,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import NewPostForm from '../../components/NewPostForm';
 import Post from '../../components/Post';
 import {
-  addPost, filterPosts, removePost, sortedPosts,
+  addComment,
+  addPost, filterPosts, sortedPosts,
 } from '../../lib/content';
 import { canAutoLogIn, clearLastLoggedIn, getLastLoggedIn } from '../../lib/users';
 
@@ -82,7 +83,9 @@ function FeedPage() {
         <React.Fragment key={post.id}>
           <Post
             {...post}
-            newCommentCallback={(text) => console.log(text)}
+            newCommentCallback={(text) => {
+              addComment(post.id, { createdBy: getLastLoggedIn(), text });
+            }}
           />
           <Divider />
         </React.Fragment>

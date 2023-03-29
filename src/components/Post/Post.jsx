@@ -1,11 +1,12 @@
 import {
-  Card, Image, Text, Badge, Button, Group, Collapse,
+  Card, Image, Text, Badge, Button, Group, Collapse, Title,
 } from '@mantine/core';
 import React from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import { useNavigate } from 'react-router-dom';
 import Comment from '../Comment';
 import NewCommentForm from '../NewCommentForm';
+import { getLastLoggedIn } from '../../lib/users';
 
 /**
  * @param {{
@@ -51,6 +52,7 @@ function Post({
       <Group position="apart" mt="md" mb="xs">
         <Text weight={500}>{createdBy ?? 'Anonymous'}</Text>
         <Group>
+          {(getLastLoggedIn() === createdBy ? <Badge color="pink" variant="filled">My post</Badge> : undefined)}
           {(!image ? <Badge color="red">No image</Badge> : undefined)}
           <Badge>
             {comments.length}
@@ -97,7 +99,8 @@ function Post({
         </Group>
       </Group>
       <Collapse in={commentsOpened}>
-        {comments.map((comment) => <Comment comment={comment} />)}
+        <Text weight={500} mt="md">Comments</Text>
+        {comments.map((comment) => <Comment key={crypto.randomUUID()} comment={comment} />)}
       </Collapse>
       <Collapse in={newCommentOpened}>
         <NewCommentForm postCommentCallback={newCommentCallback} />

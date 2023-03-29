@@ -62,12 +62,34 @@ export const removePost = (postId) => {
   localStorage.setItem('content', JSON.stringify(filtered));
 };
 
-export const editPost = (postId, editCallback) => {
-  // TODO implement
+/**
+ * @param {number} postId
+ * @param {{image: string,
+ * text:string,
+ * createdBy: string
+ * timestamp: string | undefined,
+ * comments: {
+ *   text:string,
+ *   createdBy: string,
+ *   timestamp: string}[] | undefined,
+ * }} editedPost
+ * @returns {void}
+ */
+export const editPost = (postId, editedPost) => {
+  let post = getPost(postId);
+  removePost(postId);
+  post = { ...post, ...editedPost };
+  addPost(post);
 };
 
 export const addComment = (postId, { createdBy, text }) => {
-  // TODO implement
+  editPost(postId, {
+    comments: [...getPost(postId).comments, {
+      createdBy,
+      text,
+      timestamp: new Date().toISOString(),
+    }],
+  });
 };
 
 export const sortedPosts = () => getPosts()
