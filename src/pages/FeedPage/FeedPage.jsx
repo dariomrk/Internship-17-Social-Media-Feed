@@ -9,11 +9,13 @@ import {
 import { useNavigate } from 'react-router-dom';
 import NewPostForm from '../../components/NewPostForm';
 import Post from '../../components/Post';
-import { addPost, getPosts, removePost } from '../../lib/content';
+import {
+  addPost, getPosts, removePost, sortedPosts,
+} from '../../lib/content';
 import { canAutoLogIn, clearLastLoggedIn, getLastLoggedIn } from '../../lib/users';
 
 function FeedPage() {
-  const [posts, setPosts] = useState(getPosts());
+  const [posts, setPosts] = useState(sortedPosts());
   const [openedNewPost, { toggle: toggleNewPost }] = useDisclosure(false);
   const navigate = useNavigate();
   const isValidLogin = canAutoLogIn();
@@ -66,7 +68,7 @@ function FeedPage() {
         <NewPostForm
           newPostCallback={({ text, image }) => {
             addPost({ text, image, createdBy: getLastLoggedIn() });
-            setPosts(getPosts());
+            setPosts(sortedPosts());
             toggleNewPost(false);
           }}
         />
@@ -78,7 +80,7 @@ function FeedPage() {
             newCommentCallback={(text) => console.log(text)}
             removePostCallback={(id) => {
               removePost(id);
-              setPosts(getPosts());
+              setPosts(sortedPosts());
             }}
           />
           <Divider />

@@ -70,6 +70,10 @@ export const addComment = (postId, { createdBy, text }) => {
   // TODO implement
 };
 
-export const sortPosts = (posts) => {
-  // TODO implement
-};
+export const sortedPosts = () => getPosts()
+  .sort((p1, p2) => {
+    const date1 = Date.parse(p1.timestamp);
+    const date2 = Date.parse(p2.timestamp);
+
+    return (date1 < date2) ? 1 : -1;
+  });
