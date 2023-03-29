@@ -72,9 +72,8 @@ function FeedPage() {
         />
       </Collapse>
       {posts.map((post) => (
-        <>
+        <React.Fragment key={post.id}>
           <Post
-            key={post.id}
             {...post}
             newCommentCallback={(text) => console.log(text)}
             removePostCallback={(id) => {
@@ -82,8 +81,8 @@ function FeedPage() {
               setPosts(getPosts());
             }}
           />
-          <Divider key={crypto.randomUUID()} />
-        </>
+          <Divider />
+        </React.Fragment>
       ))}
     </Stack>
   );

@@ -1,5 +1,5 @@
 import {
-  Button, Grid, Col, Textarea, FileInput, Card, Image, Title,
+  Button, Grid, Col, Textarea, FileInput, Card, Image, Group, Badge,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import React, { useEffect, useState } from 'react';
@@ -21,10 +21,8 @@ function NewPostForm({ newPostCallback }) {
   });
 
   useEffect(() => {
-    if (!imageFile) {
-      form.setFieldValue('image', null);
-      return;
-    }
+    if (!imageFile) { return; }
+
     imageCompression(imageFile, { maxSizeMB: 0.2, maxWidthOrHeight: 1000, useWebWorker: true })
       .then((compressed) => encode(compressed)
         .then(((encoded) => form.setFieldValue('image', encoded))));
@@ -32,14 +30,22 @@ function NewPostForm({ newPostCallback }) {
 
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
-      <Title order={2}>New post</Title>
-      {!imageFile ? undefined : <Image mt="md" src={form.values.image} />}
+      <Card.Section>
+        {!imageFile ? undefined : <Image height={400} src={form.values.image} />}
+      </Card.Section>
       <form onSubmit={form.onSubmit(({ text, image }) => {
         newPostCallback({ text, image });
         form.reset();
         setImageFile(null);
       })}
       >
+        <Group mt="md">
+          {(!form.values.image
+            ? <Badge color="red">No image</Badge>
+            : (
+              <Badge>Preview</Badge>
+            ))}
+        </Group>
         <Textarea
           placeholder="Post text goes here"
           variant="filled"
