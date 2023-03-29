@@ -104,7 +104,8 @@ export const sortedPosts = () => getPosts()
   });
 
 export const filterPosts = (posts, searchKeyword) => posts
-  .filter((post) => post.createdBy.includes(searchKeyword) || post.text.includes(searchKeyword));
+  .filter((post) => post.createdBy.toLowerCase().includes(searchKeyword)
+  || post.text.toLowerCase().includes(searchKeyword));
 
 export const sortComments = (comments) => comments
   .sort((c1, c2) => {
