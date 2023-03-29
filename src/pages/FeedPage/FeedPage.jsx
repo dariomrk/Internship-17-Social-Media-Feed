@@ -28,12 +28,7 @@ function FeedPage() {
   }, [isValidLogin, navigate]);
 
   useEffect(() => {
-    if (!searchParams.get('search')) {
-      setPosts(sortedPosts());
-      return;
-    }
-
-    setPosts((current) => filterPosts(current, searchParams.get('search')));
+    setPosts(filterPosts(sortedPosts(), searchParams.get('search') ?? ''));
   }, [searchParams]);
 
   return (

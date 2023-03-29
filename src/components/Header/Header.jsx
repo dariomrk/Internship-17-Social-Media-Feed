@@ -2,33 +2,39 @@ import {
   TextInput, Button, Grid, Col,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Search } from 'tabler-icons-react';
 
 function Header() {
+  const [showClearButton, setShowClearButton] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const form = useForm({
     initialValues: {
       search: '',
     },
+    transformValues: (values) => ({
+      search: values.search.trim().toLowerCase(),
+    }),
   });
 
   const submitHandler = ({ search }) => {
-    const normalizedSearch = search.trim().toLowerCase();
-    if (normalizedSearch === '') {
-      navigate('/feed', { relative: false });
+    if (search === '') {
+      navigate('/feed');
       return;
     }
-    navigate(`feed/?search=${search}`);
-    form.reset();
+    navigate(`/feed/?search=${search}`);
   };
+
+  useEffect(() => {
+    setShowClearButton(form.values.search.trim().toLowerCase() === searchParams.get('search'));
+  }, [form, searchParams]);
 
   return (
     <header>
       <form onSubmit={form.onSubmit(submitHandler)}>
-        <Grid columns={10} align="center">
+        <Grid align="center">
           <Col span="auto">
             <TextInput
               icon={<Search />}
@@ -38,7 +44,28 @@ function Header() {
             />
           </Col>
           <Col span="content">
-            <Button type="submit" variant="light" size="sm">Search</Button>
+            {(showClearButton
+              ? (
+                <Button
+                  variant="light"
+                  color="red"
+                  onClick={() => {
+                    navigate('/feed');
+                    form.reset();
+                  }}
+                >
+                  Clear
+                </Button>
+              )
+              : (
+                <Button
+                  type="submit"
+                  variant="light"
+                >
+                  Search
+                </Button>
+              )
+              )}
           </Col>
         </Grid>
       </form>
