@@ -55,7 +55,7 @@ function FeedPage() {
                   leftIcon={<PencilPlus />}
                   onClick={toggleNewPost}
                 >
-                  Create new post
+                  Create a new post
                 </Button>
               )
               : (
@@ -64,7 +64,7 @@ function FeedPage() {
                   leftIcon={<PencilMinus />}
                   onClick={toggleNewPost}
                 >
-                  Close create new post
+                  Close
                 </Button>
               ))}
           </Group>
