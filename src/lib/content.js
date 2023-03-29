@@ -77,3 +77,6 @@ export const sortedPosts = () => getPosts()
 
     return (date1 < date2) ? 1 : -1;
   });
+
+export const filterPosts = (posts, searchKeyword) => posts
+  .filter((post) => post.createdBy.includes(searchKeyword) || post.text.includes(searchKeyword));

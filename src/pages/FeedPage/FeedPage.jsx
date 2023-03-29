@@ -6,11 +6,11 @@ import { useDisclosure } from '@mantine/hooks';
 import {
   PencilMinus, DoorExit, PencilPlus,
 } from 'tabler-icons-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import NewPostForm from '../../components/NewPostForm';
 import Post from '../../components/Post';
 import {
-  addPost, getPosts, removePost, sortedPosts,
+  addPost, filterPosts, removePost, sortedPosts,
 } from '../../lib/content';
 import { canAutoLogIn, clearLastLoggedIn, getLastLoggedIn } from '../../lib/users';
 
@@ -19,12 +19,22 @@ function FeedPage() {
   const [openedNewPost, { toggle: toggleNewPost }] = useDisclosure(false);
   const navigate = useNavigate();
   const isValidLogin = canAutoLogIn();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     if (!isValidLogin) {
       navigate('/');
     }
   }, [isValidLogin, navigate]);
+
+  useEffect(() => {
+    if (!searchParams.get('search')) {
+      setPosts(sortedPosts());
+      return;
+    }
+
+    setPosts((current) => filterPosts(current, searchParams.get('search')));
+  }, [searchParams]);
 
   return (
     <Stack mt="lg">
