@@ -79,31 +79,55 @@ function Post({
           More
         </Button>
         <Group position="left">
-          <Button
-            disabled={comments.length === 0}
-            variant="light"
-            color="blue"
-            radius="md"
-            onClick={toggleComments}
-          >
-            See comments
-          </Button>
-          <Button
-            variant="light"
-            color="blue"
-            radius="md"
-            onClick={toggleNewComment}
-          >
-            New comment
-          </Button>
+          {(commentsOpened ? (
+            <Button
+              disabled={comments.length === 0}
+              variant="light"
+              color="red"
+              radius="md"
+              onClick={toggleComments}
+            >
+              Hide comments
+            </Button>
+          ) : (
+            <Button
+              disabled={comments.length === 0}
+              variant="light"
+              radius="md"
+              onClick={toggleComments}
+            >
+              Show comments
+            </Button>
+          ))}
+          {(newCommentOpened ? (
+            <Button
+              variant="light"
+              color="red"
+              radius="md"
+              onClick={toggleNewComment}
+            >
+              Close new comment
+            </Button>
+          ) : (
+            <Button
+              variant="light"
+              radius="md"
+              onClick={toggleNewComment}
+            >
+              New comment
+            </Button>
+          ))}
         </Group>
       </Group>
       <Collapse in={commentsOpened}>
-        <Text weight={500} mt="md">Comments</Text>
         {comments.map((comment) => <Comment key={crypto.randomUUID()} comment={comment} />)}
       </Collapse>
       <Collapse in={newCommentOpened}>
-        <NewCommentForm postCommentCallback={newCommentCallback} />
+        <NewCommentForm postCommentCallback={(commentText) => {
+          toggleNewComment(false);
+          newCommentCallback(commentText);
+        }}
+        />
       </Collapse>
     </Card>
   );
