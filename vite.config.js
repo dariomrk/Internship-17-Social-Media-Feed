@@ -8,4 +8,5 @@ export default defineConfig({
     react(),
     reactScopedCssPlugin(),
   ],
+  base: '/Internship-17-Social-Media-Feed/',
 });
