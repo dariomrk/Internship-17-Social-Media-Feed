@@ -7,14 +7,14 @@ import {
   ArrowBackUp, DoorExit, Edit, Eraser,
 } from 'tabler-icons-react';
 import Post from '../../components/Post';
-import { getPost } from '../../lib/content';
-import { canAutoLogIn, clearLastLoggedIn } from '../../lib/users';
+import { getPost, removePost } from '../../lib/content';
+import { canAutoLogIn, clearLastLoggedIn, getLastLoggedIn } from '../../lib/users';
 
 function PostPage() {
   const navigate = useNavigate();
   const isValidLogin = canAutoLogIn();
   const { id } = useParams();
-  const [post, setPost] = useState(getPost(Number(id)));
+  const [post, setPost] = useState(getPost(id));
 
   useEffect(() => {
     if (!isValidLogin) {
@@ -47,14 +47,29 @@ function PostPage() {
             </Button>
             <Button
               leftIcon={<ArrowBackUp />}
+              onClick={() => {
+                navigate('/feed');
+              }}
             >
               Feed
             </Button>
           </Group>
-          <Group>
-            <Button leftIcon={<Edit />}>Edit post</Button>
-            <Button color="red" leftIcon={<Eraser />}>Delete post</Button>
-          </Group>
+          {(post.createdBy === getLastLoggedIn() ? (
+            <Group>
+              <Button leftIcon={<Edit />}>Edit post</Button>
+              <Button
+                color="red"
+                leftIcon={<Eraser />}
+                onClick={() => {
+                  removePost(post.id);
+                  navigate('/feed');
+                }}
+              >
+                Delete post
+
+              </Button>
+            </Group>
+          ) : undefined)}
         </Group>
       </Card>
       <Post {...post} />

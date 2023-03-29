@@ -1,12 +1,13 @@
 /**
  * Gets all posts and related comments from localStorage.
  * @returns {{
- * id: number,
+ * id: string,
  * image: string,
  * text: string,
  * createdBy: string,
  * timestamp: string,
  * comments: {
+ *  id: string,
  *  text:string,
  *  createdBy: string,
  *  timestamp: string}[]
@@ -17,17 +18,18 @@ export const getPosts = () => JSON.parse(localStorage.getItem('content')) ?? [];
 /**
  * Adds a new post to localStorage.
  * @param {{
- * id: number | undefined,
+ * id: string | undefined,
  * image: string,
  * text:string,
  * createdBy: string
  * timestamp: string | undefined,
  * comments: {
+ *  id: string,
 *   text:string,
 *   createdBy: string,
 *   timestamp: string}[] | undefined,
  * }} post post to add
- * @returns {number} post id
+ * @returns {string} post id
  */
 export const addPost = ({
   id = undefined,
@@ -41,7 +43,7 @@ export const addPost = ({
   localStorage.setItem('content', JSON.stringify([
     ...previous,
     {
-      id: id ?? previous.length,
+      id: id ?? crypto.randomUUID(),
       image,
       text,
       createdBy,
@@ -63,7 +65,7 @@ export const removePost = (postId) => {
 };
 
 /**
- * @param {number} postId
+ * @param {string} postId
  * @param {{image: string,
  * text:string,
  * createdBy: string
@@ -85,6 +87,7 @@ export const editPost = (postId, editedPost) => {
 export const addComment = (postId, { createdBy, text }) => {
   editPost(postId, {
     comments: [...getPost(postId).comments, {
+      id: crypto.randomUUID(),
       createdBy,
       text,
       timestamp: new Date().toISOString(),
@@ -102,3 +105,11 @@ export const sortedPosts = () => getPosts()
 
 export const filterPosts = (posts, searchKeyword) => posts
   .filter((post) => post.createdBy.includes(searchKeyword) || post.text.includes(searchKeyword));
+
+export const sortComments = (comments) => comments
+  .sort((c1, c2) => {
+    const date1 = Date.parse(c1.timestamp);
+    const date2 = Date.parse(c2.timestamp);
+
+    return (date1 < date2) ? 1 : -1;
+  });

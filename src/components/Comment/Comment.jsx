@@ -1,7 +1,8 @@
 import {
-  Card, Text, Group, Badge,
+  Card, Text, Group, Badge, Button,
 } from '@mantine/core';
 import React from 'react';
+import { Eraser } from 'tabler-icons-react';
 import { getLastLoggedIn } from '../../lib/users';
 
 function Comment({ comment }) {
@@ -16,9 +17,15 @@ function Comment({ comment }) {
           <Badge>{new Date(comment.timestamp).toLocaleString('en-US')}</Badge>
         </Group>
       </Group>
-      <Text mt="sm">
-        {comment.text}
-      </Text>
+      <Group position="apart" mt="sm">
+        <Text mt="sm">
+          {comment.text}
+        </Text>
+        {(comment.createdBy === getLastLoggedIn()
+          ? <Button variant="light" color="red" leftIcon={<Eraser />}>Delete</Button>
+          : undefined)}
+      </Group>
+
     </Card>
   );
 }
