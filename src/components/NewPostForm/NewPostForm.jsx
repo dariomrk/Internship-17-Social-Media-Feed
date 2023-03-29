@@ -21,7 +21,12 @@ function NewPostForm({ newPostCallback }) {
   });
 
   useEffect(() => {
-    if (!imageFile) { return; }
+    if (!imageFile && !form.values.image) { return; }
+
+    if (!imageFile) {
+      form.setFieldValue('image', null);
+      return;
+    }
 
     imageCompression(imageFile, { maxSizeMB: 0.2, maxWidthOrHeight: 1000, useWebWorker: true })
       .then((compressed) => encode(compressed)
