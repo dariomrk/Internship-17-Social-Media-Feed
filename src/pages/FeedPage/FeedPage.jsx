@@ -87,6 +87,7 @@ function FeedPage() {
               addComment(post.id, { createdBy: getLastLoggedIn(), text });
               setPosts(sortedPosts());
             }}
+            showMoreButton
           />
           <Divider />
         </React.Fragment>

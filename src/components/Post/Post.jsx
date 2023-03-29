@@ -21,6 +21,7 @@ import { getLastLoggedIn } from '../../lib/users';
  *  timestamp: string,
  * }[],
  * newCommentCallback: (text: string) => void,
+ * showMoreButton: boolean
  * }} props
  * @returns {JSX.ELement}
  */
@@ -32,6 +33,7 @@ function Post({
   timestamp,
   comments = [],
   newCommentCallback,
+  showMoreButton,
 }) {
   const [commentsOpened, { toggle: toggleComments }] = useDisclosure(false);
   const [newCommentOpened, { toggle: toggleNewComment }] = useDisclosure(false);
@@ -67,17 +69,20 @@ function Post({
       <Text size="sm" color="dimmed">
         {text ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'}
       </Text>
-      <Group position="apart" mt="md">
-        <Button
-          variant="light"
-          color="blue"
-          radius="md"
-          onClick={() => {
-            navigate(`/post/${id}`);
-          }}
-        >
-          More
-        </Button>
+      <Group position={(showMoreButton ? 'apart' : 'right')} mt="md">
+        {(showMoreButton
+          ? (
+            <Button
+              variant="light"
+              color="blue"
+              radius="md"
+              onClick={() => {
+                navigate(`/post/${id}`);
+              }}
+            >
+              More
+            </Button>
+          ) : undefined)}
         <Group position="left">
           {(commentsOpened ? (
             <Button
