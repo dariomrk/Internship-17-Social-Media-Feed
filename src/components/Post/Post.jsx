@@ -21,6 +21,7 @@ import { getLastLoggedIn } from '../../lib/users';
  *  timestamp: string,
  * }[],
  * newCommentCallback: (text: string) => void,
+ * removeCommentCallback: (postId: string, commentId: string) => void,
  * showMoreButton: boolean
  * }} props
  * @returns {JSX.ELement}
@@ -33,6 +34,7 @@ function Post({
   timestamp,
   comments = [],
   newCommentCallback,
+  removeCommentCallback,
   showMoreButton,
 }) {
   const [commentsOpened, { toggle: toggleComments }] = useDisclosure(false);
@@ -125,7 +127,14 @@ function Post({
         </Group>
       </Group>
       <Collapse in={commentsOpened}>
-        {comments.map((comment) => <Comment key={crypto.randomUUID()} comment={comment} />)}
+        {comments.map((comment) => (
+          <Comment
+            key={crypto.randomUUID()}
+            postId={id}
+            comment={comment}
+            removeCommentCallback={removeCommentCallback}
+          />
+        ))}
       </Collapse>
       <Collapse in={newCommentOpened}>
         <NewCommentForm postCommentCallback={(commentText) => {

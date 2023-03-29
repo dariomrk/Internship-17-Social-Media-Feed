@@ -11,7 +11,7 @@ import NewPostForm from '../../components/NewPostForm';
 import Post from '../../components/Post';
 import {
   addComment,
-  addPost, filterPosts, sortedPosts,
+  addPost, filterPosts, removeComment, sortedPosts,
 } from '../../lib/content';
 import { canAutoLogIn, clearLastLoggedIn, getLastLoggedIn } from '../../lib/users';
 
@@ -85,6 +85,10 @@ function FeedPage() {
             {...post}
             newCommentCallback={(text) => {
               addComment(post.id, { createdBy: getLastLoggedIn(), text });
+              setPosts(sortedPosts());
+            }}
+            removeCommentCallback={(postId, commentId) => {
+              removeComment(postId, commentId);
               setPosts(sortedPosts());
             }}
             showMoreButton

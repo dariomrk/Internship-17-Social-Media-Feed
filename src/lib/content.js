@@ -114,3 +114,10 @@ export const sortComments = (comments) => comments
 
     return (date1 < date2) ? 1 : -1;
   });
+
+export const removeComment = (postId, commentId) => {
+  editPost(postId, {
+    ...getPost(postId),
+    comments: getPost(postId).comments.filter((comment) => comment.id !== commentId),
+  });
+};

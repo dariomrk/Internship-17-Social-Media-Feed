@@ -5,7 +5,7 @@ import React from 'react';
 import { Eraser } from 'tabler-icons-react';
 import { getLastLoggedIn } from '../../lib/users';
 
-function Comment({ comment }) {
+function Comment({ postId, comment, removeCommentCallback }) {
   return (
     <Card mt="sm" padding="sm" radius="md" withBorder>
       <Group position="apart">
@@ -22,7 +22,7 @@ function Comment({ comment }) {
           {comment.text}
         </Text>
         {(comment.createdBy === getLastLoggedIn()
-          ? <Button variant="light" color="red" leftIcon={<Eraser />}>Delete</Button>
+          ? <Button onClick={() => { removeCommentCallback(postId, comment.id); }} variant="light" color="red" leftIcon={<Eraser />}>Delete</Button>
           : undefined)}
       </Group>
 

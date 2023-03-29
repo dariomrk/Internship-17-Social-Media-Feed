@@ -4,10 +4,12 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
-  ArrowBackUp, DoorExit, Edit, Eraser,
+  ArrowBackUp, DoorExit, Eraser,
 } from 'tabler-icons-react';
 import Post from '../../components/Post';
-import { addComment, getPost, removePost } from '../../lib/content';
+import {
+  addComment, getPost, removeComment, removePost,
+} from '../../lib/content';
 import { canAutoLogIn, clearLastLoggedIn, getLastLoggedIn } from '../../lib/users';
 
 function PostPage() {
@@ -75,6 +77,10 @@ function PostPage() {
         newCommentCallback={(text) => {
           addComment(post.id, { createdBy: getLastLoggedIn(), text });
           setPost(getPost(post.id));
+        }}
+        removeCommentCallback={(postId, commentId) => {
+          removeComment(postId, commentId);
+          setPost(getPost(postId));
         }}
         {...post}
       />
