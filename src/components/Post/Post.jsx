@@ -3,12 +3,13 @@ import {
 } from '@mantine/core';
 import React from 'react';
 import { useDisclosure } from '@mantine/hooks';
+import { useNavigate } from 'react-router-dom';
 import Comment from '../Comment';
 import NewCommentForm from '../NewCommentForm';
-import { getLastLoggedIn } from '../../lib/users';
 
 /**
  * @param {{
+ * id: number,
  * image: string,
  * text: string,
  * createdBy: string,
@@ -33,6 +34,7 @@ function Post({
 }) {
   const [commentsOpened, { toggle: toggleComments }] = useDisclosure(false);
   const [newCommentOpened, { toggle: toggleNewComment }] = useDisclosure(false);
+  const navigate = useNavigate();
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section>
@@ -68,6 +70,9 @@ function Post({
           variant="light"
           color="blue"
           radius="md"
+          onClick={() => {
+            navigate(`/post/${id}`);
+          }}
         >
           More
         </Button>
@@ -89,12 +94,6 @@ function Post({
           >
             New comment
           </Button>
-          {/* {createdBy === getLastLoggedIn()
-            ? (
-              <Button onClick={() => removePostCallback(id)} color="red">
-                Delete
-              </Button>
-            ) : undefined} */}
         </Group>
       </Group>
       <Collapse in={commentsOpened}>

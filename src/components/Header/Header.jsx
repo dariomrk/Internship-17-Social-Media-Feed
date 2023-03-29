@@ -3,11 +3,12 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import React from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Search } from 'tabler-icons-react';
 
 function Header() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const form = useForm({
     initialValues: {
       search: '',
@@ -17,10 +18,10 @@ function Header() {
   const submitHandler = ({ search }) => {
     const normalizedSearch = search.trim().toLowerCase();
     if (normalizedSearch === '') {
-      setSearchParams({});
+      navigate('/feed', { relative: false });
       return;
     }
-    setSearchParams({ search: normalizedSearch });
+    navigate(`feed/?search=${search}`);
     form.reset();
   };
 
