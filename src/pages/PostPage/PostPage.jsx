@@ -54,7 +54,7 @@ function PostPage() {
               Feed
             </Button>
           </Group>
-          {(post.createdBy === getLastLoggedIn() ? (
+          {(post !== null && post.createdBy === getLastLoggedIn() ? (
             <Group>
               <Button leftIcon={<Edit />}>Edit post</Button>
               <Button

@@ -20,7 +20,7 @@ function NotFoundPage() {
       </Text>
       <Button
         onClick={() => {
-          navigate('/');
+          navigate('/', { replace: true });
         }}
         variant="subtle"
         size="md"
