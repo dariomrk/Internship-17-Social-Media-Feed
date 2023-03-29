@@ -88,10 +88,6 @@ function FeedPage() {
           <Post
             {...post}
             newCommentCallback={(text) => console.log(text)}
-            removePostCallback={(id) => {
-              removePost(id);
-              setPosts(sortedPosts());
-            }}
           />
           <Divider />
         </React.Fragment>

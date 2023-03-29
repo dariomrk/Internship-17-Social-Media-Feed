@@ -19,7 +19,6 @@ import { getLastLoggedIn } from '../../lib/users';
  *  timestamp: string,
  * }[],
  * newCommentCallback: (text: string) => void,
- * removePostCallback: (id: number) => void,
  * }} props
  * @returns {JSX.ELement}
  */
@@ -31,7 +30,6 @@ function Post({
   timestamp,
   comments = [],
   newCommentCallback,
-  removePostCallback,
 }) {
   const [commentsOpened, { toggle: toggleComments }] = useDisclosure(false);
   const [newCommentOpened, { toggle: toggleNewComment }] = useDisclosure(false);
@@ -65,30 +63,39 @@ function Post({
       <Text size="sm" color="dimmed">
         {text ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'}
       </Text>
-      <Group position="right" mt="md">
-        <Button
-          disabled={comments.length === 0}
-          variant="light"
-          color="blue"
-          radius="md"
-          onClick={toggleComments}
-        >
-          See comments
-        </Button>
+      <Group position="apart" mt="md">
         <Button
           variant="light"
           color="blue"
           radius="md"
-          onClick={toggleNewComment}
         >
-          New comment
+          More
         </Button>
-        {createdBy === getLastLoggedIn()
-          ? (
-            <Button onClick={() => removePostCallback(id)} color="red">
-              Delete
-            </Button>
-          ) : undefined}
+        <Group position="left">
+          <Button
+            disabled={comments.length === 0}
+            variant="light"
+            color="blue"
+            radius="md"
+            onClick={toggleComments}
+          >
+            See comments
+          </Button>
+          <Button
+            variant="light"
+            color="blue"
+            radius="md"
+            onClick={toggleNewComment}
+          >
+            New comment
+          </Button>
+          {/* {createdBy === getLastLoggedIn()
+            ? (
+              <Button onClick={() => removePostCallback(id)} color="red">
+                Delete
+              </Button>
+            ) : undefined} */}
+        </Group>
       </Group>
       <Collapse in={commentsOpened}>
         {comments.map((comment) => <Comment comment={comment} />)}
