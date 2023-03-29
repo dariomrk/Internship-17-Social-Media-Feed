@@ -1,3 +1,5 @@
+import seedData from '../data/seed.json';
+
 /**
  * Gets all posts and related comments from localStorage.
  * @returns {{
@@ -13,7 +15,7 @@
  *  timestamp: string}[]
  * }[]} posts and comments array.
  */
-export const getPosts = () => JSON.parse(localStorage.getItem('content')) ?? [];
+export const getPosts = () => JSON.parse(localStorage.getItem('content')) ?? seedData.content;
 
 /**
  * Adds a new post to localStorage.

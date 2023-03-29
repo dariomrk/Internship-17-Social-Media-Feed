@@ -1,8 +1,10 @@
+import seedData from '../data/seed.json';
+
 /**
  * Gets all users from localStorage.
  * @returns {[{username: string, password: string, lastLogin: string}]} users array
  */
-export const getUsers = () => JSON.parse(localStorage.getItem('users')) ?? [];
+export const getUsers = () => JSON.parse(localStorage.getItem('users')) ?? seedData.users;
 
 /**
  * Adds a new user to localStorage.
