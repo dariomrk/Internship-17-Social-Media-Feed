@@ -7,7 +7,7 @@ import {
   ArrowBackUp, DoorExit, Edit, Eraser,
 } from 'tabler-icons-react';
 import Post from '../../components/Post';
-import { getPost, removePost } from '../../lib/content';
+import { addComment, getPost, removePost } from '../../lib/content';
 import { canAutoLogIn, clearLastLoggedIn, getLastLoggedIn } from '../../lib/users';
 
 function PostPage() {
@@ -56,7 +56,6 @@ function PostPage() {
           </Group>
           {(post !== null && post.createdBy === getLastLoggedIn() ? (
             <Group>
-              <Button leftIcon={<Edit />}>Edit post</Button>
               <Button
                 color="red"
                 leftIcon={<Eraser />}
@@ -72,7 +71,13 @@ function PostPage() {
           ) : undefined)}
         </Group>
       </Card>
-      <Post {...post} />
+      <Post
+        newCommentCallback={(text) => {
+          addComment(post.id, { createdBy: getLastLoggedIn(), text });
+          setPost(getPost(post.id));
+        }}
+        {...post}
+      />
     </Stack>
   );
 }
