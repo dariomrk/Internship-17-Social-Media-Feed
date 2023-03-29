@@ -35,7 +35,8 @@ function FeedPage() {
   return (
     <Stack mt="lg">
       <Card shadow="sm" padding="lg" radius="md" withBorder>
-        <Group position="apart" spacing="sm">
+        <Title>Feed</Title>
+        <Group mt="md" position="apart" spacing="sm">
           <Button
             leftIcon={<DoorExit />}
             color="red"
