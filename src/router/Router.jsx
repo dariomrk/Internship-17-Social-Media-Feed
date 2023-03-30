@@ -18,7 +18,7 @@ const router = createHashRouter(createRoutesFromElements(
     </Route>
     <Route path="*" element={<NotFoundPage />} />
   </>,
-), { basename: 'https://dariomrk.github.io/Internship-17-Social-Media-Feed' });
+));
 
 function Router() {
   return (<RouterProvider router={router} />);
