@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "/Internship-17-Social-Media-Feed/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

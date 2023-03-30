@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  createBrowserRouter, createRoutesFromElements, Route, RouterProvider,
+  createHashRouter, createRoutesFromElements, Route, RouterProvider,
 } from 'react-router-dom';
 
 import IndexPage from '../pages/IndexPage';
@@ -9,7 +9,7 @@ import FeedPage from '../pages/FeedPage';
 import PostPage from '../pages/PostPage';
 import NotFoundPage from '../pages/NotFoundPage';
 
-const router = createBrowserRouter(createRoutesFromElements(
+const router = createHashRouter(createRoutesFromElements(
   <>
     <Route path="/" element={<IndexPage />} />
     <Route element={<Layout />}>
