@@ -7,7 +7,8 @@ All application data is stored in localStorage.
 
 [![Deploy static content to Pages](https://github.com/dariomrk/Internship-17-Social-Media-Feed/actions/workflows/deploy.yaml/badge.svg?branch=deploy)](https://github.com/dariomrk/Internship-17-Social-Media-Feed/actions/workflows/deploy.yaml)
 
-You can check out the live version here: [Social Media Feed](https://dariomrk.github.io/Internship-17-Social-Media-Feed/#/)
+You can check out the live version here: [Social Media Feed](https://dariomrk.github.io/Internship-17-Social-Media-Feed/#/).  
+Note that the deploy branch is using the `HashRouter` instead of the `BrowserRouter`.
 
 ## Getting started
 
